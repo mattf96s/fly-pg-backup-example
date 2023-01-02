@@ -1,0 +1,39 @@
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+
+  push:
+    branches: ["main"]
+
+jobs:
+  backup-db:
+    name: Backup DB
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+          pip install -r requirements.txt
+
+      - name: Backup
+        run: python -m cli fly-db-backup
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+          PG_DATABASE: ${{ secrets.PG_DATABASE }}
+          PG_USER: ${{ secrets.PG_USER }}
+          S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          APP_NAME: ${{ secrets.APP_NAME }}
+          PROXY_APP_NAME: ${{ secrets.PROXY_APP_NAME }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}

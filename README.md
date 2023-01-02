@@ -33,7 +33,7 @@ $ python3 -m pip install -r requirements.txt
 How do I even get the various connection values?
 
 ```
-flyctl ssh console -a my-remix-app-34bb-staging
+flyctl ssh console -a your_app_name
 ```
 
 ```
