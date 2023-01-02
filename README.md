@@ -1,4 +1,4 @@
-# Automated Fly.io PostGres Database Backups
+# Automated Fly.io Postgres Database Backups
 
 An example showing how to use a GitHub action to automate backups of a Fly.io Postgres database as well as then uploading the backups to S3 (or another storage provider of your choosing).
 
