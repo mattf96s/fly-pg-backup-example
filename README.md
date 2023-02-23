@@ -51,6 +51,19 @@ For illustration purposes, assume my main fly app is called `my-example-app` and
 | S3_BUCKET            | my-database-backups |             |
 | AWS_REGION           | eu-west-1           |             |
 
+</br>
+
+<i>Slack specific variables</i>
+</br>
+
+> For alerting a channel if the workflow fails. See [here](https://github.com/marketplace/actions/slack-send) for more info.
+
+|                  | Example | Explanation |
+| ---------------- | ------- | ----------- |
+| SLACK_CHANNEL_ID |         |             |
+| SLACK_BOT_TOKEN  |         |             |
+
+</br>
 ### How to retrieve certain environment values
 
 > Ensure that you are logged into your fly account:

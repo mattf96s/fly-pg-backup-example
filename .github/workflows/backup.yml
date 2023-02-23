@@ -37,3 +37,39 @@ jobs:
           APP_NAME: ${{ secrets.APP_NAME }}
           PROXY_APP_NAME: ${{ secrets.PROXY_APP_NAME }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Slack Alert on run failure
+        if: failure()
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          # For posting a simple plain text message
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Database backup failure <!channel> :siren:"
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Investigate",
+                      "emoji": true
+                    },
+                    "style": "danger",
+                    "value": "click_me_123",
+                    "url": "https://github.com/sovtechconnect/pg-backup/actions",
+                    "action_id": "button-action"
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
